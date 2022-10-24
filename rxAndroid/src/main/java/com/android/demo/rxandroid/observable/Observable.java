@@ -98,6 +98,13 @@ public abstract class Observable<T> implements ObservableSource<T>{
         return new ObservableTake<>(this, count);
     }
 
+    public Observable<T> takeLast(int count) {
+        if (count < 0) {
+            throw new IllegalArgumentException("count >= 0 required but it was " + count);
+        }
+        return new ObservableTakeLast<>(this, count);
+    }
+
     public <U> Observable<U> concatMap(Function<T, ObservableSource<U>> mapper) {
         return new ObservableConcatMap<>(this, mapper);
     }
