@@ -20,4 +20,8 @@ public abstract class Scheduler {
         Worker worker = createWorker();
         return worker.schedule(run, 0,  TimeUnit.NANOSECONDS);
     }
+
+    public Disposable schedulePeriodicallyDirect(Runnable runnable, long delay, long period, TimeUnit unit) {
+        throw new UnsupportedOperationException("This scheduler doesn't support periodic execution");
+    }
 }

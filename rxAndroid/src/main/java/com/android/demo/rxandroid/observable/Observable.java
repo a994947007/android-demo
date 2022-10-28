@@ -148,6 +148,14 @@ public abstract class Observable<T> implements ObservableSource<T>{
         });
     }
 
+    public static Observable<Long> interval(long period, TimeUnit unit) {
+        return interval(0, period, unit, Schedules.COMPUTATION);
+    }
+
+    public static Observable<Long> interval(long initDelay, long period, TimeUnit unit, Scheduler scheduler) {
+        return new ObservableInterval(initDelay, period, unit, scheduler);
+    }
+
     public Disposable subscribe(Consumer<T> consumer) {
         LambdaObserver<T> ls = new LambdaObserver<>(consumer, Functions.<Throwable>emptyConsumer(), Functions.EMPTY_ACTION, Functions.EMPTY_ACTION);
         this.subscribe(ls);

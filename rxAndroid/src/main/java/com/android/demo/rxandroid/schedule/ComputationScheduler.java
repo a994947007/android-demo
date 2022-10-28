@@ -52,6 +52,11 @@ public class ComputationScheduler extends Scheduler{
         return new ComputationWorker();
     }
 
+    @Override
+    public Disposable schedulePeriodicallyDirect(Runnable runnable, long delay, long period, TimeUnit unit) {
+        return new ComputationWorker().schedulePeriodicallyDirect(runnable, delay, period, unit);
+    }
+
     private static class ComputationWorker extends Worker {
         private boolean isDisposed = false;
         private Future<?> future;
@@ -76,6 +81,11 @@ public class ComputationScheduler extends Scheduler{
             } else {
                 future = SERVICE.schedule(run, delay, unit);
             }
+            return this;
+        }
+
+        public Disposable schedulePeriodicallyDirect(Runnable runnable, long delay, long period, TimeUnit unit) {
+            SERVICE.scheduleAtFixedRate(runnable, delay, period, unit);
             return this;
         }
     }
