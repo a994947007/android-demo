@@ -27,6 +27,10 @@ public class ExampleUnitTest {
               }
             });
 
-    TimeUnit.SECONDS.sleep();
+      try {
+          TimeUnit.SECONDS.sleep(5);
+      } catch (InterruptedException e) {
+          e.printStackTrace();
+      }
   }
 }
