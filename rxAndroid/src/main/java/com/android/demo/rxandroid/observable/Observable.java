@@ -1,5 +1,6 @@
 package com.android.demo.rxandroid.observable;
 
+import java.io.IOException;
 import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
 
@@ -64,7 +65,11 @@ public abstract class Observable<T> implements ObservableSource<T>{
     }
 
     public Observable<T> distinctUntilChanged() {
-        return new ObservableDistinctUntilChanged<>(this);
+        return distinct(t -> t);
+    }
+
+    public <K> Observable<T> distinct(Function<T, K> func) {
+        return new ObservableDistinct<>(this, func);
     }
 
     public static <T> Observable<T> fromCallable(Callable<T> callable) {
