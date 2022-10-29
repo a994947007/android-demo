@@ -7,6 +7,8 @@ import java.util.concurrent.TimeUnit;
 import com.android.demo.rxandroid.disposable.Disposable;
 import com.android.demo.rxandroid.function.Function;
 import com.android.demo.rxandroid.observer.Action;
+import com.android.demo.rxandroid.observer.BlockingFirstObserver;
+import com.android.demo.rxandroid.observer.BlockingLastObserver;
 import com.android.demo.rxandroid.observer.Consumer;
 import com.android.demo.rxandroid.observer.LambdaObserver;
 import com.android.demo.rxandroid.observer.Observer;
@@ -159,6 +161,24 @@ public abstract class Observable<T> implements ObservableSource<T>{
 
     public static Observable<Long> interval(long initDelay, long period, TimeUnit unit, Scheduler scheduler) {
         return new ObservableInterval(initDelay, period, unit, scheduler);
+    }
+
+    /**
+     * 会阻塞当前线程
+     */
+    public T blockingFirst() {
+        BlockingFirstObserver<T> observer = new BlockingFirstObserver<>();
+        subscribe(observer);
+        return observer.blockingGet();
+    }
+
+    /**
+     * 会阻塞当前线程
+     */
+    public T blockingLast() {
+        BlockingLastObserver<T> observer = new BlockingLastObserver<>();
+        subscribe(observer);
+        return observer.blockingGet();
     }
 
     public Disposable subscribe(Consumer<T> consumer) {
