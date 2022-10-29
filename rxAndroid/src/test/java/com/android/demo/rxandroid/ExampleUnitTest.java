@@ -6,6 +6,7 @@ import static org.junit.Assert.*;
 
 import com.android.demo.rxandroid.observable.Observable;
 import com.android.demo.rxandroid.observer.Consumer;
+import com.android.demo.rxandroid.schedule.Schedules;
 
 import java.util.concurrent.TimeUnit;
 
@@ -19,18 +20,14 @@ public class ExampleUnitTest {
   public void addition_isCorrect() {
     assertEquals(4, 2 + 2);
 
-    Observable.interval(100, TimeUnit.MILLISECONDS)
-            .subscribe(new Consumer<Long>() {
-              @Override
-              public void accept(Long aLong) {
-                System.out.println(aLong);
-              }
+    Observable.just(1, 2, 3, 4, 5)
+            .subscribeOn(Schedules.IO)
+            .blockingSubscribe(new Consumer<Integer>() {
+                @Override
+                public void accept(Integer integer) {
+                    System.out.println(integer);
+                }
             });
 
-      try {
-          TimeUnit.SECONDS.sleep(5);
-      } catch (InterruptedException e) {
-          e.printStackTrace();
-      }
   }
 }
