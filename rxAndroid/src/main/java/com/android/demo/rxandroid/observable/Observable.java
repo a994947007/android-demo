@@ -46,6 +46,10 @@ public abstract class Observable<T> implements ObservableSource<T>{
         return new ObservableMap<>(this, function);
     }
 
+    public Observable<T> doOnSubscribe(Consumer<? super Disposable> onSubscribe) {
+        return new ObservableDoOnSubscribe<>(this, onSubscribe);
+    }
+
     public Observable<T> doOnNext(Consumer<T> onNext) {
         return new ObservableDoOnEach<>(this, onNext, Functions.<Throwable>emptyConsumer(), Functions.EMPTY_ACTION, Functions.EMPTY_ACTION);
     }
