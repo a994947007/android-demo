@@ -6,6 +6,7 @@ import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.TimeUnit;
 
 import com.android.demo.rxandroid.disposable.Disposable;
+import com.android.demo.rxandroid.filter.Predicate;
 import com.android.demo.rxandroid.function.Function;
 import com.android.demo.rxandroid.observer.Action;
 import com.android.demo.rxandroid.observer.BlockingFirstObserver;
@@ -77,6 +78,18 @@ public abstract class Observable<T> implements ObservableSource<T>{
                 return t;
             }
         });
+    }
+
+    public Observable<T> hide() {
+        return new ObservableHide<>(this);
+    }
+
+    public Observable<T> takeUntil(Predicate<T> predicate) {
+        return new ObservableTakeUntil<>(this, predicate);
+    }
+
+    public Observable<T> filter(Predicate<T> filter) {
+        return new ObservableFilter<>(this, filter);
     }
 
     public <K> Observable<T> distinct(Function<T, K> func) {

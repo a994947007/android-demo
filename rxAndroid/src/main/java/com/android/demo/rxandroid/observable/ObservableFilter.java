@@ -1,14 +1,14 @@
 package com.android.demo.rxandroid.observable;
 
-import com.android.demo.rxandroid.filter.Filter;
+import com.android.demo.rxandroid.filter.Predicate;
 import com.android.demo.rxandroid.observer.BaseObserver;
 import com.android.demo.rxandroid.observer.Observer;
 
 public class ObservableFilter<T> extends AbstractObservableWithUpStream<T, T> {
 
-    private final Filter<T> filter;
+    private final Predicate<T> filter;
 
-    public ObservableFilter(Observable<T> source, Filter<T> filter) {
+    public ObservableFilter(Observable<T> source, Predicate<T> filter) {
         super(source);
         this.filter = filter;
     }
@@ -20,9 +20,9 @@ public class ObservableFilter<T> extends AbstractObservableWithUpStream<T, T> {
 
     private static class FilterObserver<T> extends BaseObserver<T, T> {
 
-        private final Filter<T> filter;
+        private final Predicate<T> filter;
 
-        public FilterObserver(Observer<T> actual, Filter<T> filter) {
+        public FilterObserver(Observer<T> actual, Predicate<T> filter) {
             super(actual);
             this.filter = filter;
         }
@@ -30,7 +30,7 @@ public class ObservableFilter<T> extends AbstractObservableWithUpStream<T, T> {
         @Override
         public void onNext(T t) {
             try {
-                if (filter.accept(t)) {
+                if (filter.test(t)) {
                     actual.onNext(t);
                 }
             } catch (Throwable r) {
