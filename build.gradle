@@ -42,7 +42,7 @@ ext {
 
     PUBLISH_GROUP_ID = 'com.android.demo'
     PUBLISH_ARTIFACT_ID = 'rxAndroid'
-    PUBLISH_VERSION = '2.3'
+    PUBLISH_VERSION = '2.4'
 }
 
 task clean(type: Delete) {
