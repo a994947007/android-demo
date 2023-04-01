@@ -1,5 +1,6 @@
 package com.android.demo.rxandroid.subjects;
 
+import com.android.demo.rxandroid.disposable.EmptyDisposable;
 import com.android.demo.rxandroid.observer.BaseObserver;
 import com.android.demo.rxandroid.observer.Observer;
 
@@ -127,8 +128,8 @@ public class PublishSubject<T> extends Subject<T>{
 
         @Override
         public void dispose() {
-            super.dispose();
             parent.remove(this);
+            actual = EmptyDisposable.emptyObservable();
         }
     }
 }
